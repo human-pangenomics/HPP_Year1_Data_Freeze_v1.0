@@ -2,7 +2,8 @@
 
 ![White Logo](https://s3-us-west-2.amazonaws.com/human-pangenomics/backup/logo-proof-full.png)
 
-*The [Human Pangenome Reference Consortium](https://humanpangenome.org/) produced sequencing data for assembly of 30 samples. Multiple data types including PacBio HiFi, Nanopore, and Bionano are avaiable. Strand-seq is available for 7 samples, and Hi-C data for all 30 samples will be released in March. Data created and hosted by the HPRC is open and available for download. For information about data reuse and publicating with HPRC data please see the HPRC's [Data Use Protocol](https://humanpangenome.org/data-use-protocol/).*
+*The [Human Pangenome Reference Consortium](https://humanpangenome.org/) produced sequencing data for assembly of 30 samples. Multiple data types including PacBio HiFi, Nanopore, and Bionano are avaiable. Strand-seq is available for 7 samples. Hi-C data for all 30 samples will be released in March. Data created and hosted by the HPRC is open and available for download. For information about data reuse and publicating with HPRC data please see the HPRC's [Data Use Protocol](https://humanpangenome.org/data-use-protocol/). Note that the HPRC Year 1 data is pending publication, currently scheduled for mid-2021. If you would
+like to publish using this please contact the HPRC Coordinating Center at hprcadmin@gowustl.onmicrosoft.com.*
 
 ------------------
 
