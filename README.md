@@ -2,8 +2,9 @@
 
 ![White Logo](https://s3-us-west-2.amazonaws.com/human-pangenomics/backup/logo-proof-full.png)
 
-*The [Human Pangenome Reference Consortium](https://humanpangenome.org/) produced sequencing data for assembly of 30 samples. Multiple data types including PacBio HiFi, Nanopore, and Bionano are avaiable. Strand-seq is available for 7 samples. Hi-C data for all 30 samples will be released in March. Data created and hosted by the HPRC is open and available for download. For information about data reuse and publicating with HPRC data please see the HPRC's [Data Use Protocol](https://humanpangenome.org/data-use-protocol/). Note that the HPRC Year 1 data is pending publication, currently scheduled for mid-2021. If you would
-like to publish using this please contact the HPRC Coordinating Center at hprcadmin@gowustl.onmicrosoft.com.*
+*The [Human Pangenome Reference Consortium](https://humanpangenome.org/) produced sequencing data for assembly of 30 samples. Multiple data types including PacBio HiFi, Nanopore, and Bionano are avaiable. Strand-seq is available for 7 samples. Hi-C data for all 30 samples will be released in March. Data created and hosted by the HPRC is open and available for download in our S3 & GCP buckets. Select data is also uploaded to international nucleotide sequencing databases (SRA/ENA/DDBJ) under the HPRC Genome Sequencing BioProject (PRJNA701308). 
+
+For information about data reuse and publicating with HPRC data please see the HPRC's [Data Use Protocol](https://humanpangenome.org/data-use-protocol/). Note that the HPRC Year 1 data is pending publication, currently scheduled for mid-2021. If you would like to publish using this please contact the HPRC Coordinating Center at hprcadmin@gowustl.onmicrosoft.com.*
 
 ------------------
 
@@ -25,7 +26,9 @@ Data is sync'd between the AWS and GCP using [SSDS](https://github.com/DataBiosp
  ── working/
     ├── HPRC/
     │   └── HG00438/
-    │       └── assemblies/
+    |       └── analysis/
+    │           └── aligned_reads/
+    │       └── assemblies/
     │       └── raw_data/
     │           └── Illumina/
     │           └── PacBio_HiFi/
@@ -35,6 +38,7 @@ Data is sync'd between the AWS and GCP using [SSDS](https://github.com/DataBiosp
     │           └── nanopore/     
     └── HPRC_PLUS/
         └── HG01442/
+            └── analysis/        
             └── assemblies/
             └── raw_data/
 ```
@@ -56,7 +60,9 @@ PacBio HiFi sequencing was performed on the Sequel2 instrument using v2 chemistr
 * {flowcell_id}.ccs.bam - consensus called unaligned bam file
 * {flowcell_id}.ccs.bam.md5 - md5 hash of ccs.bam file
 
-Consensus sequences were generated with v4.0.0 of the CCS algorithm. Subreads files are available in the [backups area of the S3 bucket](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=backup/submissions/).
+Consensus sequences were generated with v4.0.0 of the CCS algorithm. Subreads files are available in the [backups area of the S3 bucket](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=backup/submissions/). 
+
+HiFi reads aligned to GRCh38 and CHM13 with Winnowmap are included in samples' working tree under ```working/HPRC/{sample_id}/analysis/aligned_reads/hifi```. More information can be found in the README files for the algnments to [GRCh38](https://s3-us-west-2.amazonaws.com/human-pangenomics/submissions/93e97bf0-416a-11eb-b378-0242ac130002--WUSTL_Winnowmap_HiFi_Alignments_Y1Freeze/GRCh38/README) and [CHM13](https://s3-us-west-2.amazonaws.com/human-pangenomics/submissions/93e97bf0-416a-11eb-b378-0242ac130002--WUSTL_Winnowmap_HiFi_Alignments_Y1Freeze/CHM13v1Y/README). 
 
 ### Nanopore PromethION Data From UC Santa Cruz
 
@@ -75,6 +81,8 @@ The following file types are available:
 * MoleculeQualityReport.txt - summary report on molecular quality
 * exp_informaticsReportSimple.txt - simple version of the exp_informaticsReport.txt file
 
+For information about Bionano file specifications or utilization of Bionano files see [Bionano's website](https://bionanogenomics.com/support-page/data-analysis-documentation/).
+
 ### Strand-seq Data From EMBL
 
 Strand-seq is a single-cell sequencing technology that resolves individual homologs within a cell by restricting sequence analysis to the DNA template strands used during DNA replication ([see Sanders, et al.](https://www.nature.com/articles/nprot.2017.029)). Strand-seq data is available for the following samples:
@@ -87,4 +95,4 @@ Strand-seq is a single-cell sequencing technology that resolves individual homol
 * HG02257
 * HG02486
 
-Each sample has 96 fastq.gz files available -- from 96 single cells (nuclei).
+Each sample has 192 fastq.gz files available -- from paired-end sequencing of 96 single cells (nuclei).
