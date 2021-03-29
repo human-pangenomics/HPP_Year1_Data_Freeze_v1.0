@@ -2,7 +2,7 @@
 
 ![White Logo](https://s3-us-west-2.amazonaws.com/human-pangenomics/backup/logo-proof-full.png)
 
-*The [Human Pangenome Reference Consortium](https://humanpangenome.org/) produced sequencing data for assembly of 30 samples. Multiple data types including PacBio HiFi, Nanopore, and Bionano are avaiable. Strand-seq is available for 7 samples. Hi-C data for all 30 samples will be released in March. Data created and hosted by the HPRC is open and available for download in our S3 & GCP buckets. Select data is also uploaded to international nucleotide sequencing databases (SRA/ENA/DDBJ) under the HPRC Genome Sequencing BioProject (PRJNA701308). 
+*The [Human Pangenome Reference Consortium](https://humanpangenome.org/) produced sequencing data for assembly of 30 samples. Multiple data types including PacBio HiFi, Nanopore, Hi-C, and Bionano are avaiable. Strand-seq is available for 7 samples. Data created and hosted by the HPRC is open and available for download in our S3 & GCP buckets. Select data is also uploaded to international nucleotide sequencing databases (SRA/ENA/DDBJ) under the HPRC Genome Sequencing BioProject (PRJNA701308). 
 
 For information about data reuse and publicating with HPRC data please see the HPRC's [Data Use Protocol](https://humanpangenome.org/data-use-protocol/). Note that the HPRC Year 1 data is pending publication, currently scheduled for mid-2021. If you would like to publish using this please contact the HPRC Coordinating Center at hprcadmin@gowustl.onmicrosoft.com.*
 
@@ -10,7 +10,7 @@ For information about data reuse and publicating with HPRC data please see the H
 
 ### Sequencing Data Production
 * PacBio Hifi Data Produced By [UW](https://eichlerlab.gs.washington.edu/) and [WashU](https://www.genome.wustl.edu/)
-* Hi-C Sequencing Data Produced By [UCSC](https://pgl.soe.ucsc.edu/) (*coming soon*)
+* Hi-C Sequencing Data Produced By [UCSC](https://pgl.soe.ucsc.edu/)
 * Strand-Seq Data Produced By [EMBL](https://www.embl.de/research/units/genome_biology/korbel/)
 * Oxford Nanopore Data Produced By [UCSC](https://nanopore.soe.ucsc.edu/about)
 * BioNano Data Produced By [Rockefeller](https://www.rockefeller.edu/research/vertebrate-genomes-project/vertebrate-genome-lab/)
@@ -33,6 +33,7 @@ Data is sync'd between the AWS and GCP using [SSDS](https://github.com/DataBiosp
     │           └── Illumina/
     │           └── PacBio_HiFi/
     │           └── bionano/
+    │           └── hic/
     │           └── karyotype/
     │           └── microarray/
     │           └── nanopore/     
@@ -71,6 +72,29 @@ The UCSC Nanopore PromethION HPP data were generated using the a new long read p
 * sample_Guppy_4.0.11_prom.fastq.gz - Fastq file basecalled using Guppy v4.0.11
 * sample_Guppy_4.0.11_prom_sequencing_summary.txt.gz - Sequencing summary file from Guppy basecalling that can be used for indexing signal data
 * sample_Guppy_4.0.11_prom.fused_reads.txt.gz - A catalog of reads that were found to be connected by Bulkvis (https://github.com/LooseLab/bulkvis) but artificially split by software. 
+
+### Hi-C/Omni-C Data From UCSC
+
+OmniC is a restriction enzyme-free HiC protocol. DNA is fragmented using an endonuclease that cuts DNA randomly, i.e., not at specific restriction sites. It uses a biotinylated linker to facilitate proximity ligation. This short linker sequence may be present within the read data. The architecture of an OmniC library molecule is:
+
+P5adapter:GenomicRegion:Linker:GenomicRegion:P7adapter
+
+Depending on the read length, some or all of the Linker sequence may be present in R1, R2, or both. When present, the Linker sequence is: 
+```AGGTTCGTCCATCGATCGATGGACGAACCT``` 
+Note that the linker sequence is a DNA palindrome. Thus, the Linker sequence will be the same whether present in R1 or R2 (forward or reverse read).
+
+
+For each HPRC sample, two OmniC libraries are generated and sequenced. Duplicates can be identified and removed within each library, but not between libraries as independent sample material goes into each. Libraries are sequenced across several Novaseq lanes, depending on lane availability, with 2x150 paired-end sequencing.
+
+The raw fastq OmniC data can be aligned using bwa mem with flags ```-5SP``` In practice, bwa mem (local alignment) will not omit the Linker sequence from the alignment in cases when it is present in the read.
+
+Example alignment command:
+```bwa mem -5SP <genome> <OmniC_R1.fq.gz> <OmniC_R2.fq.gz>```
+
+The following file types are available:
+
+* {library_name}.R1_001.fastq.gz - forward reads
+* {library_name}.R2_001.fastq.gz - reverse reads
 
 ### Bionano Data From Rockefeller
 
