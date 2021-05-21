@@ -120,3 +120,10 @@ Strand-seq is a single-cell sequencing technology that resolves individual homol
 * HG02486
 
 Each sample has 192 fastq.gz files available -- from paired-end sequencing of 96 single cells (nuclei).
+
+### Trio Illumina Data From NYGC
+
+When available, we have included high coverage (30X) Illumina datasets produced by NYGC for select 1000G samples. Information about this dataset can be found at [IGSR](https://www.internationalgenome.org/data-portal/data-collection/30x-grch38). 
+
+Note that the data is stored in CRAM format (aligned to GRCHh38), but is placed in the raw_data area for each sample as the consortium uses the raw reads from the CRAMs. When used in assembly pipelines, the [extract_reads.wdl](https://github.com/human-pangenomics/hpp_production_workflows/blob/master/QC/wdl/tasks/extract_reads.wdl) is used to call ```samtools fastq``` to convert the reads to fastq format.
+
